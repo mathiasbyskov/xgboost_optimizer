@@ -1,13 +1,15 @@
 
+"""
+
+	LOAD ALL DATASETS
+
+	This script loads and saves all 
+	the relevant datasets.
+
+"""
+
 import pandas as pd
 from sklearn import datasets
-
-########################
-#
-#	LOAD ALL DATASETS
-#
-########################
-
 
 # BOSTON  
 boston = datasets.load_boston()

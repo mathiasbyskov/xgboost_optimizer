@@ -1,0 +1,20 @@
+RETTELSER:
+ - clean code
+    one/two_parameters:
+    - init_param
+    - init_param_grid
+    - init_conditions
+    
+    xgboost_optimizer:
+    - init_parameters
+    - init_param_dict
+    - init_mode
+ 
+ - ret mode til multiple classification
+
+TILFØJELSER:
+ - example.py
+ - command-line fil (run.py)
+ - proofofconcept.py (3x datasæt)
+ - n_estimators? Automatisk optimisering
+ - Levels of verbosity? (0 intet, 1 egne print, 2 GridSearch print)
