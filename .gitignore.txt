@@ -1,9 +1,0 @@
-# ignoring files below
-
-# directories
-__pycache__
-old version
-
-# files
-todo.txt
-test.py
