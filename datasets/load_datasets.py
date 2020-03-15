@@ -17,6 +17,13 @@ df = pd.DataFrame(boston.data, columns = boston.feature_names)
 df['PRICE'] = boston.target
 df.to_csv('boston.csv', header=True, index=False)
 
+# dump X and y for Boston
+X = df.iloc[:,0:-1]
+y = df.iloc[:,-1]
+
+X.to_csv('X_boston.csv', header=True, index=False)
+y.to_csv('y_boston.csv', header=True, index=False)
+
 # DIABETES
 diabetes = datasets.load_diabetes()
 df = pd.DataFrame(diabetes.data, columns=diabetes.feature_names)
