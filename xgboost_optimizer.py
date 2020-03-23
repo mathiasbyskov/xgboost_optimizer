@@ -296,20 +296,20 @@ def xgboost_optimizer(X, y, mode = "regression", parameters = None, param_dict =
                     Default: [['max_depth', 'min_child_weight'], 'gamma', ['subsample', 'colsample_bytree'], 'reg_alpha', 'learning_rate']
         param_dict: Dictionary with all features possible to optimize. Contains informatino about range, size, step-size, maximum and minimum value
                     Default: param_dict = {'max_depth': {'range': [1,7], 'size': 6, 'step_size': 2, 'dtype': int, 'minimum': True, 'maximum': False},
-                      'min_child_weight': {'range': [0,6], 'size': 6, 'step_size': 2, 'dtype': int, 'minimum': True, 'maximum': False},
-                      'max_delta_step': {'range': [0,6], 'size': 6, 'step_size': 2, 'dtype': int, 'minimum': True, 'maximum': False},
-                      'subsample': {'range': [0.1, 1], 'size': 10, 'step_size': None, 'dtype': float, 'minimum': True, 'maximum': True},
-                      'colsample_bytree': {'range': [0, 1], 'size': 10, 'step_size': None, 'dtype': float, 'minimum': True, 'maximum': True},
-                      'colsample_bylevel': {'range': [0.1, 1], 'size': 10, 'step_size': None, 'dtype': float, 'minimum': True, 'maximum': True},
-                      'colsample_bynode': {'range': [0.1, 1], 'size': 10, 'step_size': None, 'dtype': float, 'minimum': True, 'maximum': True},
-                      'reg_alpha': {'range': [0, 0.5], 'size': 10, 'step_size': 5, 'dtype': float, 'minimum': True, 'maximum': False},
-                      'reg_lambda': {'range': [0, 0.5], 'size': 10, 'step_size': 5, 'dtype': float, 'minimum': True, 'maximum': False},
-                      'gamma': {'range': [0, 1.0], 'size': 11, 'step_size': 2, 'dtype': float, 'minimum': True, 'maximum': False},
-                      'learning_rate': {'range': [0.001, 0.1], 'size': 10, 'step_size': 2, 'dtype': float, 'minimum': False, 'maximum': False}}
+                                           'min_child_weight': {'range': [0,6], 'size': 6, 'step_size': 2, 'dtype': int, 'minimum': True, 'maximum': False},
+                                           'max_delta_step': {'range': [0,6], 'size': 6, 'step_size': 2, 'dtype': int, 'minimum': True, 'maximum': False},
+                                           'subsample': {'range': [0.1, 1], 'size': 10, 'step_size': None, 'dtype': float, 'minimum': True, 'maximum': True},
+                                           'colsample_bytree': {'range': [0, 1], 'size': 10, 'step_size': None, 'dtype': float, 'minimum': True, 'maximum': True},
+                                           'colsample_bylevel': {'range': [0.1, 1], 'size': 10, 'step_size': None, 'dtype': float, 'minimum': True, 'maximum': True},
+                                           'colsample_bynode': {'range': [0.1, 1], 'size': 10, 'step_size': None, 'dtype': float, 'minimum': True, 'maximum': True},
+                                           'reg_alpha': {'range': [0, 0.5], 'size': 10, 'step_size': 5, 'dtype': float, 'minimum': True, 'maximum': False},
+                                           'reg_lambda': {'range': [0, 0.5], 'size': 10, 'step_size': 5, 'dtype': float, 'minimum': True, 'maximum': False},
+                                           'gamma': {'range': [0, 1.0], 'size': 11, 'step_size': 2, 'dtype': float, 'minimum': True, 'maximum': False},
+                                           'learning_rate': {'range': [0.001, 0.1], 'size': 10, 'step_size': 2, 'dtype': float, 'minimum': False, 'maximum': False}}
         tree_method: method to use when creating trees (parameter in xgboost-function)
         n_estimators: number of estimators to use
         cv_folds: number of folds used in grid-search
-        n_jobs: number of parallel jobs to run in grid-search
+        n_jobs: number of parallel jobs to run in grid-search (-1 indicates all available threads)
         verbose: verbosity (0 nothing will be printed, 1 xgboost_optimizer will print info., 2 Gridsearch will also print info.)
         
     Output:
@@ -347,6 +347,7 @@ def xgboost_optimizer(X, y, mode = "regression", parameters = None, param_dict =
             model_parameters[first_parameter] = best_param_val_first
             model_parameters[second_parameter] = best_param_val_second
             model.set_params(**model_parameters)
+            
             
     model = model.fit(X, y)
     if verbose: print("\nFinal model optimized.")

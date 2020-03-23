@@ -15,19 +15,21 @@ from sklearn.model_selection import train_test_split
 from xgboost_optimizer import xgboost_optimizer
     
 # SET PARAMETERS
-n_estimators = 500
+n_estimators = 10
 cv_folds = 5
 tree_method = 'hist'
 verbose = 1
 
+############################################
+# CALIFORNIA HOUSING DATASET (Regression)
+############################################
 
-################################
-# BOSTON DATASET (Regression)
-################################
+from sklearn.datasets import fetch_california_housing
 
-boston = pd.read_csv('./datasets/boston.csv', header = 0, index_col = False)  
-X = boston.iloc[:,0:-1]
-y = boston.iloc[:,-1]
+# Extract dataset
+cal_housing = fetch_california_housing()
+X = pd.DataFrame(cal_housing.data, columns=cal_housing.feature_names)
+y = cal_housing.target
 
 # Split into train and test set
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2)
@@ -48,19 +50,22 @@ print("Train MSE: {}".format(TRAIN_MSE))
 print("Test MSE: {}".format(TEST_MSE))
 
 
-################################
-# BREAST CANCER (Binary)
-################################
+############################################
+# Digit dataset (Multiple Classification)
+############################################
 
-breast_cancer = pd.read_csv('./datasets/breast_cancer.csv', header = 0, index_col = False)  
-X = breast_cancer.iloc[:,0:-1]
-y = breast_cancer.iloc[:,-1]
+from sklearn.datasets import load_digits
+
+# Extract dataset
+digits = load_digits()
+X = pd.DataFrame(digits.data)
+y = digits.target
 
 # Split into train and test set
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2)
 
 # Optimize boosting model
-optimized_model = xgboost_optimizer(X_train, y_train, mode = "binary_class", tree_method = tree_method, 
+optimized_model = xgboost_optimizer(X_train, y_train, mode = "multiple_class", tree_method = tree_method, 
                           n_estimators = n_estimators, cv_folds = cv_folds, verbose = verbose)
 
 # Make predictions
@@ -71,8 +76,8 @@ y_pred_test = optimized_model.predict(X_test)
 accuracy_train = accuracy_score(y_train, y_pred_train)
 accuracy_test = accuracy_score(y_test, y_pred_test)
 
-print(accuracy_train)
-print(accuracy_test)
+print("Train Accuracy: {}".format(accuracy_train))
+print("Test Accuracy: {}".format(accuracy_test))
 
 # Create confusion matrix (test)
 print(confusion_matrix(y_test, y_pred_test))
