@@ -1,4 +1,4 @@
-# xgboost_optimizer
+ # xgboost_optimizer
 
 [xgboost](https://xgboost.readthedocs.io/en/latest/) has become a very popular choice of model when doing supervised learning. It contains many parameters, which makes it a difficult task to optimize/tune a good model. This library provides a automatic approach for optimizing the xgboost-model.
 
@@ -15,6 +15,8 @@ For the tool to work properly, the following packages are required:
 
 • Scikit-learn : https://anaconda.org/anaconda/scikit-learn
 
+• xgboost : https://xgboost.readthedocs.io/en/latest/
+
 ## Usage
 
 The code below returns the optimized model. Two concrete examples are given in the [examples.py](https://github.com/mathiasbyskov/xgboost_optimizer/blob/master/example.py) file for both a regression and a multiple classification problem.
@@ -22,16 +24,17 @@ The code below returns the optimized model. Two concrete examples are given in t
 ```python
 from xgboost_optimizer import xgboost_optimizer
 
+mode = 'regression'
+tree_method = 'hist'
 n_estimators = 10
 cv_folds = 5
-tree_method = 'hist'
 verbose = 1
 
 X = "Your features"
 y = "Target variable"
 
-optimized_model = xgboost_optimizer(X_train, 
-                                    y_train, 
+optimized_model = xgboost_optimizer(X, 
+                                    y, 
                                     mode = "regression", 
                                     tree_method = tree_method,
                                     n_estimators = n_estimators, 
@@ -99,9 +102,38 @@ The list species the order and in which pairs the parameters should be optimized
 
 
 ## Proof of Concept
-**TBA.**
+To proof that optimization has happened after running the model I used two different datasets: [california_housing](https://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_california_housing.html#sklearn.datasets.fetch_california_housing) for regression and [digits](https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_digits.html#sklearn.datasets.load_digits) for multiple classification. The code to obtain the results are provided in [proofofconcept.py](https://github.com/mathiasbyskov/xgboost_optimizer/blob/master/proofofconcept.py).
 
-**Here some plots and results will be added in order to confirm that the optimized-model performs better than the default xgboost-model.**
+10 different models was trained of 10 different training datasets and the MSE and Accuracy is provided in the tables below:
+
+**california_housing (regression):**
+
+|   Round |   Default MSE |   Optimized MSE |
+|---:|---------------:|-----------------:|
+|  1 |       0.213976 |         0.195635 |
+|  2 |       0.200672 |         0.188292 |
+|  3 |       0.221673 |         0.19783  |
+|  4 |       0.212485 |         0.197299 |
+|  5 |       0.21887  |         0.20354  |
+|  6 |       0.21003  |         0.190388 |
+|  7 |       0.224766 |         0.207012 |
+|  8 |       0.20848  |         0.195121 |
+|  9 |       0.203722 |         0.188492 |
+|  10 |       0.216503 |         0.199135 |
+
+**digits (multiple classification):**
+|   Round |   Default Accuracy |   Optimized Accuracy|
+|---:|---------------:|-----------------:|
+|  1 |       0.961111 |         0.972222 |
+|  2 |       0.975    |         0.980556 |
+|  3 |       0.966667 |         0.988889 |
+|  4 |       0.961111 |         0.972222 |
+|  5 |       0.969444 |         0.972222 |
+|  6 |       0.980556 |         0.980556 |
+|  7 |       0.961111 |         0.977778 |
+|  8 |       0.952778 |         0.975    |
+|  9 |       0.963889 |         0.975    |
+|  10 |       0.975    |         0.988889 |
 
 ## It runs too slow. What can i do?
 xgboost can be computationally heavy to run - especially when handling high-dimensional data or very large sample-sizes. There are a few different tricks in order to make the optimizer faster - although, they should be done with care:

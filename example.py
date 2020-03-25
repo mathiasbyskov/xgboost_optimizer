@@ -13,7 +13,7 @@ from sklearn.metrics import mean_squared_error, accuracy_score, confusion_matrix
 from sklearn.model_selection import train_test_split
 
 from xgboost_optimizer import xgboost_optimizer
-    
+
 # SET PARAMETERS
 n_estimators = 10
 cv_folds = 5
